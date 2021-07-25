@@ -105,7 +105,7 @@
   twine upload dist/*
   ```
 
-  And write your credentials
+  And write your credentials.
 - **IMPORTANT WARNING!!!** If you use a name for the module, **you won't be allowed to create another one even if you delete the project!** To make tests, you can use **test-pypi** in the same way:
 
   ```bash
@@ -117,3 +117,4 @@
   ```bash
   pip install -i https://test.pypi.org/simple/ csklearn
   ```
+- **IMPORTANT WARNING!!!** The same applies to the **module versions**. In order to upload an update, make sure that in the `dist/` folder you don't have any versions that have already been uploaded.
