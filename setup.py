@@ -3,15 +3,17 @@ from setuptools import setup
 setup(
     # Needed to silence warnings (and to be a worthwhile package)
     name='csklearn',
-    url='https://gitlab.com/PL_DanielRuiz/csklearn',
+    url='https://github.com/danielruneda/csklearn',
     author='Daniel Runeda',
-    author_email='daniel.ruiz@predictland.com',
+    author_email='danielruneda@gmail.com',
     # Needed to actually package something
     packages=['csklearn'],
     # Needed for dependencies
-    install_requires=['numpy'],
+    install_requires=[
+        'numpy'
+        ],
     # *strongly* suggested for sharing
-    version='0.0.0',
+    version='0.0.11',
     # The license can be anything you like
     # license='MIT',
     # description='An example of a python package from pre-existing code',

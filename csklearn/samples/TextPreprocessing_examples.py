@@ -1,9 +1,9 @@
 # %% Import modules ------------------------------------------------------------
-from scripts.lib.csklearn.utils.get_pipe_feature_names import get_pipe_feature_names
 import pandas as pd
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.pipeline import Pipeline
 from sklearn.compose import *
+from sklearn.feature_extraction.text import *
 
 
 # SKLearn Displays
@@ -12,11 +12,10 @@ set_config(display='diagram')
 
 
 # %% UDFs
-from scripts.lib.csklearn.preprocessing.as_type import *
-from scripts.lib.csklearn.preprocessing.TextPreprocessing import *
-from sklearn.feature_extraction.text import *
-from scripts.lib.csklearn.transformers.VariableSelection import *
-from scripts.lib.csklearn.utils.get_pipe_feature_names import *
+from csklearn.preprocessing.as_type import *
+from csklearn.preprocessing.TextPreprocessing import *
+from csklearn.transformers.VariableSelection import *
+from csklearn.utils.get_pipe_feature_names import *
 
 import category_encoders as ce
 
