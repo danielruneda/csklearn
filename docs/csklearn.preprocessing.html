@@ -87,9 +87,9 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">csklearn.preprocessing package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#csklearn-preprocessing-textpreprocessing-module">csklearn.preprocessing.TextPreprocessing module</a></li>
-<li><a class="reference internal" href="#csklearn-preprocessing-as-type-module">csklearn.preprocessing.as_type module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-csklearn.preprocessing.TextPreprocessing">csklearn.preprocessing.TextPreprocessing module</a></li>
+<li><a class="reference internal" href="#module-csklearn.preprocessing.as_type">csklearn.preprocessing.as_type module</a></li>
+<li><a class="reference internal" href="#module-csklearn.preprocessing">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -164,14 +164,313 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título">¶</a></h2>
 </div>
-<div class="section" id="csklearn-preprocessing-textpreprocessing-module">
-<h2>csklearn.preprocessing.TextPreprocessing module<a class="headerlink" href="#csklearn-preprocessing-textpreprocessing-module" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="module-csklearn.preprocessing.TextPreprocessing">
+<span id="csklearn-preprocessing-textpreprocessing-module"></span><h2>csklearn.preprocessing.TextPreprocessing module<a class="headerlink" href="#module-csklearn.preprocessing.TextPreprocessing" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">OneHotEncodingWords</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#OneHotEncodingWords"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#OneHotEncodingWords.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Fit method. Needs a column with text in each row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>sparse matrix</em>) – Training vectors. If there are more
+than 1 feature, they are concatenated.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>optional</em>) – Class labels (only
+for classification). Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>self</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.get_feature_names">
+<code class="sig-name descname"><span class="pre">get_feature_names</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#OneHotEncodingWords.get_feature_names"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.get_feature_names" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>[summary]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>features_in</strong> (<em>array</em><em>, </em><em>optional</em>) – Dummy Argument for compatibility.
+Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#OneHotEncodingWords.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Given a raw matrix string, return cleaned text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.Dataframe</em><em> or </em><em>np.array</em>) – matrix with text fields</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – Not used, only for compatibility with sklearn.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>array with text cleaned</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextCleaning">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">TextCleaning</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rm_whitespaces</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopwords</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_numbers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_punct</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlywords</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp_lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'english'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ls_rmregex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['[—°]']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_regexp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'[/]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextCleaning"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextCleaning" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextCleaning.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextCleaning.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextCleaning.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Fit method. If target_encoding is False, then not applies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>sparse matrix</em>) – Training vectors. If there are more
+than 1 feature, they are concatenated.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>optional</em>) – Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>self</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextCleaning.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextCleaning.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextCleaning.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Given a raw matrix string, return cleaned text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.Dataframe</em><em> or </em><em>np.array</em>) – matrix with text fields</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – Not used, only for compatibility with sklearn.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>array with text cleaned</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextEncoding">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">TextEncoding</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nwords_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoid_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['nan']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_unique_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_topk</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextEncoding"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextEncoding" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextEncoding.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextEncoding.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextEncoding.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Fit method. If target_encoding is False, then not applies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>sparse matrix</em>) – Training vectors. If there are more
+than 1 feature, they are concatenated.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>optional</em>) – Class labels (only
+for classification). Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Muestra</dt>
+<dd class="field-even"><p><strong>Exception</strong> – if target_encoding and y is not given</p>
+</dd>
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>[object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.TextPreprocessing.TextEncoding.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TextEncoding.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TextEncoding.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Given a raw matrix string, return cleaned text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.Dataframe</em><em> or </em><em>np.array</em>) – matrix with text fields</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – Not used, only for compatibility with sklearn.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>array with text cleaned</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.preprocessing.TextPreprocessing.TokenizedTargetEncoding">
+<code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">TokenizedTargetEncoding</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwords_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoid_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['nan']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_unique_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_topk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#TokenizedTargetEncoding"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.TokenizedTargetEncoding" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Function to find Bag of Words (BoW) with Target Encoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>sparse matrix</em>) – Training vectors. If there are more
+than 1 feature, they are concatenated.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>optional</em>) – Class labels (only
+for classification). Defaults to None.</p></li>
+<li><p><strong>nwords_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – minimum number of words in label text.
+Defaults to 5.</p></li>
+<li><p><strong>nrows_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – minimum number of rows which contains
+the word for each label. Defaults to 4.</p></li>
+<li><p><strong>avoid_words</strong> (<em>list</em><em>, </em><em>optional</em>) – list of words to avoid.
+Defaults to [“nan”].</p></li>
+<li><p><strong>label_unique_threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – ratio between 0 and 1 that
+indicates for a token how many different labels it appears on.
+If the token exceeds this ratio, then it is not considered.
+All tokens will be included if it is set to 1.
+Defaults to 1.</p></li>
+<li><p><strong>label_topk</strong> (<em>int</em><em>, </em><em>optional</em>) – number of top tokens to use for each
+label class. If None then uses all tokens.
+Defaults to None.</p></li>
+<li><p><strong>return_X</strong> (<em>bool</em><em>, </em><em>optional</em>) – to return matrix instead of BoW.
+Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.preprocessing.TextPreprocessing.clean_text">
+<code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">clean_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_whitespaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopwords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_punct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp_lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'english'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ls_rmregex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['[—°]']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_regexp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'[/]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#clean_text"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.clean_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.preprocessing.TextPreprocessing.normalize_words">
+<code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">normalize_words</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp_lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#normalize_words"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.normalize_words" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.preprocessing.TextPreprocessing.rm_stop_words">
+<code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">rm_stop_words</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp_lang</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#rm_stop_words"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.rm_stop_words" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.preprocessing.TextPreprocessing.word_counts">
+<code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.TextPreprocessing.</span></code><code class="sig-name descname"><span class="pre">word_counts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwords_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoid_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['nan']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/TextPreprocessing.html#word_counts"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.TextPreprocessing.word_counts" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Function to count words and filter unfrequent words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – [description]</p></li>
+<li><p><strong>nwords_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – minimum number of words in all text.
+Defaults to 5.</p></li>
+<li><p><strong>nrows_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – minimum number of rows which contains
+the word. Defaults to 4.</p></li>
+<li><p><strong>avoid_words</strong> (<em>list</em><em>, </em><em>optional</em>) – list of words to avoid.
+Defaults to [“nan”].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>dictionary with word counter filtered.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="csklearn-preprocessing-as-type-module">
-<h2>csklearn.preprocessing.as_type module<a class="headerlink" href="#csklearn-preprocessing-as-type-module" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="module-csklearn.preprocessing.as_type">
+<span id="csklearn-preprocessing-as-type-module"></span><h2>csklearn.preprocessing.as_type module<a class="headerlink" href="#module-csklearn.preprocessing.as_type" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.preprocessing.as_type.as_np">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.as_type.</span></code><code class="sig-name descname"><span class="pre">as_np</span></code><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_np"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_np" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Transform X to numpy array if it is sparse csr.</p>
+<dl class="py method">
+<dt id="csklearn.preprocessing.as_type.as_np.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_np.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_np.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Dummy fit function that does nothing particular.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.as_type.as_np.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_np.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_np.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Convert input column X as string type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – Do nothing. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="csklearn.preprocessing.as_type.as_str">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.preprocessing.as_type.</span></code><code class="sig-name descname"><span class="pre">as_str</span></code><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_str"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_str" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Transform X into string.</p>
+<dl class="py method">
+<dt id="csklearn.preprocessing.as_type.as_str.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_str.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_str.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Dummy fit function that does nothing particular.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.preprocessing.as_type.as_str.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/preprocessing/as_type.html#as_str.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.preprocessing.as_type.as_str.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Convert input column X as string type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – Do nothing. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="module-csklearn.preprocessing">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-csklearn.preprocessing" title="Enlazar permanentemente con este título">¶</a></h2>
 </div>
 </div>
 
