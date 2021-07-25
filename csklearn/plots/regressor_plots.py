@@ -1,12 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-# import sys
-# sys.path.insert(0, '.')
-from src.models.models_helper.train_modules import *
-
+from matplotlib.dates import DateFormatter
+import matplotlib.dates as mdates
 
 def plot_ts_preds(df, y_real:str, y_pred:str, 
                             ts:str='ts',
