@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.metrics package &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">csklearn.metrics package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-csklearn.metrics.get_scores">csklearn.metrics.get_scores module</a></li>
+<li><a class="reference internal" href="#module-csklearn.metrics.root_mean_squared_error">csklearn.metrics.root_mean_squared_error module</a></li>
+<li><a class="reference internal" href="#module-csklearn.metrics">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>csklearn.metrics package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/csklearn.metrics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="csklearn-metrics-package">
+<h1>csklearn.metrics package<a class="headerlink" href="#csklearn-metrics-package" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+<div class="section" id="module-csklearn.metrics.get_scores">
+<span id="csklearn-metrics-get-scores-module"></span><h2>csklearn.metrics.get_scores module<a class="headerlink" href="#module-csklearn.metrics.get_scores" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_cv">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_cv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_round</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_estimators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_cv"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_cv" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_cv_scores_from_cv_results">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_cv_scores_from_cv_results</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d_cv_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cv'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_cv_scores_from_cv_results"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_cv_scores_from_cv_results" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Función muy particular para obtener predicción en otro conjunto de cada
+fold. Coge el d_cv_results de la función get_scores_cv filtrando.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_pipe_score">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_pipe_score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_pipe_score"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_pipe_score" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_pipe_scores">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_pipe_scores</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_pipe_scores"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_pipe_scores" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_score">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_score"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_score" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Get score from an element of d_scorer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_test</strong> (<em>array</em>) – test data</p></li>
+<li><p><strong>y_pred</strong> (<em>array</em>) – predicted data</p></li>
+<li><p><strong>scorer</strong> (<em>float</em>) – sklearn scorer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>score</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_scores">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_scores</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_scores"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_scores" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="csklearn.metrics.get_scores.get_test_scores_from_cv_results">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.get_scores.</span></code><code class="sig-name descname"><span class="pre">get_test_scores_from_cv_results</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d_cv_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'test'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/get_scores.html#get_test_scores_from_cv_results"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.get_scores.get_test_scores_from_cv_results" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Función muy particular para obtener predicción en otro conjunto de cada
+fold. Coge el d_cv_results de la función get_scores_cv, filtra y calcula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d_cv_results</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>X_test</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>y_test</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>d_scorer</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.metrics.root_mean_squared_error">
+<span id="csklearn-metrics-root-mean-squared-error-module"></span><h2>csklearn.metrics.root_mean_squared_error module<a class="headerlink" href="#module-csklearn.metrics.root_mean_squared_error" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py function">
+<dt id="csklearn.metrics.root_mean_squared_error.root_mean_squared_error">
+<code class="sig-prename descclassname"><span class="pre">csklearn.metrics.root_mean_squared_error.</span></code><code class="sig-name descname"><span class="pre">root_mean_squared_error</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/metrics/root_mean_squared_error.html#root_mean_squared_error"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.metrics.root_mean_squared_error.root_mean_squared_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.metrics">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-csklearn.metrics" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
