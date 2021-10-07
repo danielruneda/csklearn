@@ -7,13 +7,41 @@ setup(
     author='Daniel Runeda',
     author_email='danielruneda@gmail.com',
     # Needed to actually package something
-    packages=['csklearn'],
+    packages=[
+        'csklearn', 
+        'csklearn.feature_selection',
+        'csklearn.metrics',
+        'csklearn.model_selection',
+        'csklearn.plots',
+        'csklearn.preprocessing',
+        'csklearn.transformers',
+        'csklearn.utils',
+    ],
+    scripts=[
+        'csklearn/feature_selection/get_featsel_vars.py',
+        'csklearn/metrics/get_scores.py',
+        'csklearn/metrics/root_mean_squared_error.py',
+        'csklearn/model_selection/TimeSeriesSplit_TrainBlock.py',
+        'csklearn/plots/classifier_plots.py',
+        'csklearn/plots/permutation_importances.py',
+        'csklearn/plots/perturbate_and_validate.py',
+        'csklearn/plots/plot_model_importances.py',
+        'csklearn/plots/regressor_plots.py',
+        'csklearn/preprocessing/as_type.py',
+        'csklearn/preprocessing/TextPreprocessing.py',
+        'csklearn/samples/get_scores_examples.py',
+        'csklearn/transformers/algorithm_as_transformer.py',
+        'csklearn/transformers/VariableSelection.py'
+        ],
     # Needed for dependencies
     install_requires=[
-        'numpy'
+        'numpy',
+        'pandas',
+        'matplotlib',
+        # 'eli5',
         ],
     # *strongly* suggested for sharing
-    version='0.0.11',
+    version='0.0.16',
     # The license can be anything you like
     # license='MIT',
     # description='An example of a python package from pre-existing code',

@@ -1,7 +1,7 @@
 import copy
 
 # UDFs
-from csklearn.utils.get_pipe_feature_names import *
+from ..utils.get_pipe_feature_names import *
 
 
 def get_featsel_vars(pipe):
