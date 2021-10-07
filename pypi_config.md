@@ -30,12 +30,11 @@
   from .utils import *
   ```
 
-
 ## Configure PyPI
 
 ### Local configuration
 
-- Create a `setup.py` file in root folder of the project.
+- Create a `setup.py` file in root folder of the project. Note that it is necessary to add all the packages and script
 
   ```python
   from setuptools import setup
@@ -47,13 +46,41 @@
       author='Daniel Runeda',
       author_email='danielruneda@gmail.com',
       # Needed to actually package something
-      packages=['csklearn'],
+      packages=[
+          'csklearn', 
+          'csklearn.feature_selection',
+          'csklearn.metrics',
+          'csklearn.model_selection',
+          'csklearn.plots',
+          'csklearn.preprocessing',
+          'csklearn.transformers',
+          'csklearn.utils',
+      ],
+      scripts=[
+          'csklearn/feature_selection/get_featsel_vars.py',
+          'csklearn/metrics/get_scores.py',
+          'csklearn/metrics/root_mean_squared_error.py',
+          'csklearn/model_selection/TimeSeriesSplit_TrainBlock.py',
+          'csklearn/plots/classifier_plots.py',
+          'csklearn/plots/permutation_importances.py',
+          'csklearn/plots/perturbate_and_validate.py',
+          'csklearn/plots/plot_model_importances.py',
+          'csklearn/plots/regressor_plots.py',
+          'csklearn/preprocessing/as_type.py',
+          'csklearn/preprocessing/TextPreprocessing.py',
+          'csklearn/samples/get_scores_examples.py',
+          'csklearn/transformers/algorithm_as_transformer.py',
+          'csklearn/transformers/VariableSelection.py'
+          ],
       # Needed for dependencies
       install_requires=[
-          'numpy'
+          'numpy',
+          'pandas',
+          'matplotlib',
+          # 'eli5',
           ],
       # *strongly* suggested for sharing
-      version='0.0.0',
+      version='0.0.14',
       # The license can be anything you like
       # license='MIT',
       # description='An example of a python package from pre-existing code',
@@ -92,7 +119,6 @@
   ```bash
   python setup.py sdist
   ```
-
   This create a distribution of our module:
 
   ```bash
@@ -104,14 +130,12 @@
   ```bash
   twine upload dist/*
   ```
-
   And write your credentials.
 - **IMPORTANT WARNING!!!** If you use a name for the module, **you won't be allowed to create another one even if you delete the project!** To make tests, you can use **test-pypi** in the same way:
 
   ```bash
   twine upload --repository-url https://test.pypi.org/legacy/ dist/*
   ```
-
   In your test-pypi account you can see how to download with pip:
 
   ```bash

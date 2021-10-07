@@ -1,7 +1,5 @@
 import pandas as pd
-
-# UDFs
-from csklearn.utils.get_pipe_feature_names import *
+from ..utils.get_pipe_feature_names import *
 
 
 def get_preprocessed_matrix(preprocessor, X, y=None, featsel = None, fit=False, 
