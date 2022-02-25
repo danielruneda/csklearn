@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 class perturbate_and_validate:
     """Class to get perturbation validations.
 
@@ -56,7 +55,7 @@ class perturbate_and_validate:
         if self.predictor_p is None:
             raise Exception('You must use fit_predictor method before perturbate!')
 
-        row = pdseries_row.copy()
+        row = pdseries_row#.copy()
         self.step = (self.max - self.min)/n_iter
         self.step = 1e-5 if self.step == 0 else self.step
 
@@ -121,19 +120,21 @@ class perturbate_and_validate:
         # Change color
         cmap = plt.cm.get_cmap('hsv', len(idxs))
 
+        # Real points scattered
+        if y_test is not None:
+            X_test[y_test_name] = y_test.values
+            X_test.plot.scatter(x=self.predictor_p, y=y_test_name, 
+                                    ax=ax, 
+                                    color = 'black', 
+                                    marker='x', 
+                                    legend=True)
+                
+            # Important!
+            X_test.drop(y_test_name, axis = 1, inplace = True)
+
         for c, idx in enumerate(idxs):
             row = X_test.iloc[idx]
             df_p = self.perturbate(pipe, row, n_iter=n_iter)
-            
-            # Real points scattered
-            if y_test is not None:
-                df_real = X_test.copy()
-                df_real[y_test_name] = y_test.values
-                df_real.plot.scatter(x=self.predictor_p, y=y_test_name, 
-                                        ax=ax, 
-                                        color = 'black', 
-                                        marker='x', 
-                                        legend=True)
             
             # Perturbations
             df_p.plot(self.predictor_p, 'y_pred', 

@@ -43,8 +43,8 @@ def plot_preds(y_test, y_pred,
     que ha acertado vs clases reales que no coinciden.
 
     Args:
-        X (pd.DataFrame or np.array): [description]
-        y (pd.Series or np.array): [description]
+        X (array-like): array-like of shape (n_samples, n_features).
+        y (array-like): array-like of shape (n_samples, ).
         title (str, optional): [description]. Defaults to 'Sensitivity'.
         ax ([type], optional): [description]. Defaults to None.
 
@@ -78,10 +78,11 @@ def get_confusion_matrix(y_test, y_pred, all_labels=None,
     """
     Description:
     Method to get the confusion matrix.
-    Arguments:
-    - X: pandas DataFrame to make predictions on.
-    - y: pandas Series with the real labels of X.
-    - all_labels: numpy array with the possible values of the target
+
+    Args:
+        X (array-like): array-like of shape (n_samples, n_features).
+        y (array-like): array-like of shape (n_samples, ).
+        all_labels: numpy array with the possible values of the target
                     variable.
     Output:
     pandas DataFrame with the confusion matrix. The entry i-j is the number
@@ -136,7 +137,17 @@ def get_confusion_matrix(y_test, y_pred, all_labels=None,
     return df_cm
 
 
-def get_accuracy_matrix(y_test, y_pred):
+def get_accuracy_matrix(y_test, y_pred) -> pd.DataFrame:
+    """_summary_
+
+    Args:
+        y_test (array-like): array-like of shape (n_samples, ).
+        y_pred (array-like): array-like of shape (n_samples, ).
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+
     # precision
     df_preds = pd.DataFrame({'y':y_test.tolist()})
     df_preds['y_pred'] = y_pred.tolist()
@@ -165,7 +176,16 @@ def get_accuracy_matrix(y_test, y_pred):
     return df_merge
 
 
-def get_preds_matrix(y_test, y_pred):
+def get_preds_matrix(y_test, y_pred) -> pd.DataFrame:
+    """_summary_
+
+    Args:
+        y_test (array-like): array-like of shape (n_samples, ).
+        y_pred (array-like): array-like of shape (n_samples, ).
+
+    Returns:
+        pd.DataFrame: _description_
+    """
     df_preds = pd.DataFrame({'y':y_test})
     df_preds['y_pred'] = y_pred
     df_preds['ok'] = (df_preds['y'] == df_preds['y_pred'])*1
