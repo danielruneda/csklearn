@@ -4,18 +4,26 @@ csklearn.transformers package
 Submodules
 ----------
 
-csklearn.transformers.VariableSelection module
-----------------------------------------------
+csklearn.transformers.GradientBoostingFeatureGenerator module
+-------------------------------------------------------------
 
-.. automodule:: csklearn.transformers.VariableSelection
+.. automodule:: csklearn.transformers.GradientBoostingFeatureGenerator
    :members:
    :undoc-members:
    :show-inheritance:
 
-csklearn.transformers.algorithm\_as\_transformer module
--------------------------------------------------------
+csklearn.transformers.ModelTransformer module
+---------------------------------------------
 
-.. automodule:: csklearn.transformers.algorithm_as_transformer
+.. automodule:: csklearn.transformers.ModelTransformer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.transformers.VariableSelection module
+----------------------------------------------
+
+.. automodule:: csklearn.transformers.VariableSelection
    :members:
    :undoc-members:
    :show-inheritance:
