@@ -3,8 +3,13 @@ from sklearn import datasets, linear_model
 from sklearn.metrics import *
 from sklearn.model_selection import cross_validate
 
+# Needed to run scripts
+import sys, os
+sys.path.append(os.path.abspath(os.getcwd()))
+
 # UDFs
-from ..metrics.get_scores import *
+print(os.getcwd())
+from metrics.get_scores import *
 
 
 # %% Load Data and Estimator ---------------------------------------------------
