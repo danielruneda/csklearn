@@ -9,9 +9,9 @@ docutils==0.16
 html2text==2020.1.16
 idna==2.10
 imagesize==1.2.0
-ipykernel==5.5.2
-ipython==7.22.0
-ipython-genutils==0.2.0
+# ipykernel==5.5.2
+# ipython==7.22.0
+# ipython-genutils==0.2.0
 jedi==0.18.0
 Jinja2==2.11.3
 joblib==1.0.1
