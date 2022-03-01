@@ -1,5 +1,5 @@
 from sklearn.model_selection import cross_validate
-from sklearn.pipelinle import Pipeline
+from sklearn.pipeline import Pipeline
 import numpy as np
 import re
 
