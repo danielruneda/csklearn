@@ -9,7 +9,7 @@ setup(
     # Needed to actually package something
     packages=[
         'csklearn', 
-        'csklearn.architecture_templates',
+        #'csklearn.architecture_templates',
         'csklearn.metrics',
         'csklearn.model_selection',
         'csklearn.plots',
@@ -19,10 +19,10 @@ setup(
         'csklearn.wrappers',
     ],
     scripts=[
-        'csklearn/architecture_templates/tabular_nlp.py',
+        # 'csklearn/architecture_templates/tabular_nlp.py',
         'csklearn/metrics/get_scores.py',
         'csklearn/metrics/root_mean_squared_error.py',
-        'csklearn/model_selection/CustomStratifiedKFold.py'
+        'csklearn/model_selection/CustomStratifiedKFold.py',
         'csklearn/plots/classifier_plots.py',
         'csklearn/plots/permutation_importances.py',
         'csklearn/plots/perturbate_and_validate.py',
