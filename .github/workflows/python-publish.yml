@@ -42,5 +42,13 @@ jobs:
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@master
       with:
-        username: danielruneda
+        # username: danielruneda
         password: ${{ secrets.TEST_PYPI_PASSWORD }}
+    - name: Documentation
+      run: cd docs && make html
+    - name: Deploy documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/_build/html
+
