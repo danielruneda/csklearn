@@ -36,7 +36,7 @@ jobs:
         pip install -r requirements.txt
         pip install --upgrade setuptools
     - name: Run tests/test_1.py
-      run: python 
+      run: python tests/test_1.py
     - name: Compile code
       run: python setup.py sdist
     - name: Publish package
