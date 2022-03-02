@@ -1,6 +1,7 @@
 # %% ###########################################################################
 # Import modules
 ################################################################################
+import sys, os
 import pandas as pd
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
@@ -17,6 +18,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import *
 
 # From csklearn
+sys.path.append(os.path.abspath(os.getcwd()))
 from csklearn.transformers.VariableSelection import VariableSelection
 from csklearn.wrappers.wrapper_feature_names_out import *
 from csklearn.metrics.get_scores import *
@@ -99,3 +101,9 @@ d_scorer = {
             
             } 
 get_scores(y_test, y_pred, d_scorer = d_scorer)
+
+
+# %% ###########################################################################
+# Final Prints
+################################################################################
+print('TEST_1 PASSED SUCCESSFULLY!!!')
