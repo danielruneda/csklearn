@@ -52,7 +52,7 @@ jobs:
     - name: Documentation
       run: cd docs && make html
     - name: Deploy documentation
-      uses: danielruneda/csklearn@v3
+      uses: danielruneda/csklearn@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/_build/html
