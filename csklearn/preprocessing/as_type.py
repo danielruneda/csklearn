@@ -38,8 +38,9 @@ class as_np(BaseEstimator, TransformerMixin):
         """Convert input column X as string type
 
         Args:
-            X ([type]): [description]
-            y ([type], optional): Do nothing. Defaults to None.
+            X (array-like): array-like of shape (n_samples, n_features).
+            y (array-like): array-like of shape (n_samples, ). 
+                Do nothing. Defaults to None.
 
         Returns:
             [type]: [description]

@@ -3,7 +3,6 @@ import pandas as pd
 import eli5
 from eli5.sklearn import PermutationImportance
 
-
 def permutation_importances(pipe, X_test, y_test, predictors = None, n_iter=20):
     """Generate html report with Permutation Importances. It uses eli5.
 

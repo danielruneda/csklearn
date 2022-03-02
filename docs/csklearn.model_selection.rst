@@ -4,10 +4,10 @@ csklearn.model\_selection package
 Submodules
 ----------
 
-csklearn.model\_selection.TimeSeriesSplit\_TrainBlock module
-------------------------------------------------------------
+csklearn.model\_selection.CustomStratifiedKFold module
+------------------------------------------------------
 
-.. automodule:: csklearn.model_selection.TimeSeriesSplit_TrainBlock
+.. automodule:: csklearn.model_selection.CustomStratifiedKFold
    :members:
    :undoc-members:
    :show-inheritance:
