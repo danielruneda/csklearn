@@ -46,7 +46,7 @@ setup(
         # 'eli5',
         ],
     # *strongly* suggested for sharing
-    version='0.0.18',
+    version='0.0.19',
     # The license can be anything you like
     # license='MIT',
     # description='An example of a python package from pre-existing code',
