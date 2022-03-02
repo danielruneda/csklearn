@@ -150,6 +150,6 @@
 # Upload to PyPi from GitHub
 
 - This task can be performed with CI/CD.
-- Access to the `Actions` tab. Then find `Security` section and click `Secrets`. Then, in Actions you can add a Repository secrets (you can get it from csklearn project in PyPi, then: `settings > Create a token for csklearn`)
+- Access to the `Actions` tab. Then find `Security` section and click `Secrets`. Then, in Actions you can add a Repository secrets (you can get a PyPi token from csklearn project in PyPi, then: `settings > Create a token for csklearn`)
 
 https://github.com/danielruneda/csklearn/settings/secrets/actions
