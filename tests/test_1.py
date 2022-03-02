@@ -100,11 +100,11 @@ d_scorer = {
             'precision':make_scorer(precision_score, average='weighted'),
             
             } 
-get_scores(y_test, y_pred, d_scorer = d_scorer)
+print('GET SCORES:\n')
+print(get_scores(y_test, y_pred, d_scorer = d_scorer))
 
 
 # %% ###########################################################################
 # Final Prints
 ################################################################################
 print('TEST_1 PASSED SUCCESSFULLY!!!')
-print(aasdfasdf)
