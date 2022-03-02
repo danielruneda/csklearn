@@ -1,0 +1,58 @@
+image: "python:3.8.10"
+
+# Commands to run in the Docker container before starting each job.
+before_script:
+  - python --version
+  - pip install -r requirements.txt
+
+
+# Set value to environment variables USER and PASSWORD
+variables:
+    USER: $NOUS_USER
+    PASSWORD: $NOUS_PASSWORD
+
+
+# Different stages in the pipeline
+stages:
+    - test-1
+
+
+# Run test 1: Select scents by EAN (json)
+test-1:
+    stage: test-1
+    # only:
+    #     - develop
+    # #     - feature/improve_yarml_file # Que solo se ejecute en esta rama
+    # # except:
+    # #     - master
+    script:
+        - nohup python ./main.py &
+        - sleep 1
+        - echo "Running tests/test_1"
+        - echo "Regression problem ..."
+        - python tests/test_1.py
+        - echo "First test successfully completed!"
+
+
+# Run test 2: Select feature by JSON
+test-2:
+    stage: test-2
+    script:
+        - nohup python ./main.py &
+        - sleep 5
+        - echo "Running the second test..."
+        - echo "SELECT FEATURES BY JSON"
+        - python testing/test_2.py
+        - echo "Second test successfully completed!"
+
+
+# Run test 3: Select scents by EAN (json) and select feature by JSON
+test-3:
+    stage: test-3
+    script:
+        - nohup python ./main.py &
+        - sleep 5
+        - echo "Running the third test..."
+        - echo "ALL"
+        - python testing/test_3.py
+        - echo "Third test successfully completed!"
