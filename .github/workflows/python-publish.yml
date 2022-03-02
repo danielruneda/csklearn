@@ -42,4 +42,5 @@ jobs:
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@master
       with:
+        username: danielruneda
         password: ${{ secrets.PYPI_API_TOKEN }}

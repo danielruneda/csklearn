@@ -119,6 +119,7 @@
   ```bash
   python setup.py sdist
   ```
+
   This create a distribution of our module:
 
   ```bash
@@ -130,15 +131,25 @@
   ```bash
   twine upload dist/*
   ```
+
   And write your credentials.
 - **IMPORTANT WARNING!!!** If you use a name for the module, **you won't be allowed to create another one even if you delete the project!** To make tests, you can use **test-pypi** in the same way:
 
   ```bash
   twine upload --repository-url https://test.pypi.org/legacy/ dist/*
   ```
+
   In your test-pypi account you can see how to download with pip:
 
   ```bash
   pip install -i https://test.pypi.org/simple/ csklearn
   ```
 - **IMPORTANT WARNING!!!** The same applies to the **module versions**. In order to upload an update, make sure that in the `dist/` folder you don't have any versions that have already been uploaded.
+
+
+# Upload to PyPi from GitHub
+
+- This task can be performed with CI/CD.
+- Access to the `Actions` tab. Then find `Security` section and click `Secrets`. Then, in Actions you can add a Repository secrets (you can get it from csklearn project in PyPi, then: `settings > Create a token for csklearn`)
+
+https://github.com/danielruneda/csklearn/settings/secrets/actions
