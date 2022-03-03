@@ -51,11 +51,11 @@ jobs:
 
     # PREPARE DOCUMENTATION
     - name: Prepare documentation
-      run: cd docs && sphinx-apidoc -f -o . .. && make html
+      run: cd docs && sphinx-apidoc -f -o . .. && make clean && make html
 
     # UPLOAD DOCUMENTATION
     - name: Push Documentation
-      run:  cd docs && make clean && make github
+      run:  cd docs && make github
     - name: Deploy documentation
       uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
       with:
@@ -63,10 +63,4 @@ jobs:
         dir_docs: docs
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/_build/html
-    # - name: Running the Sphinx to gh-pages Action
-    #   uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
-    #   with:
-    #     branch: main
-    #     dir_docs: docs
-    #     sphinxopts: ''
 
