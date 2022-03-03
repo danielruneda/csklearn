@@ -22,6 +22,7 @@ setup(
         # 'csklearn/architecture_templates/tabular_nlp.py',
         'csklearn/metrics/get_scores.py',
         'csklearn/metrics/root_mean_squared_error.py',
+        'csklearn/metrics/root_mean_squared_error2.py',
         'csklearn/model_selection/CustomStratifiedKFold.py',
         'csklearn/plots/classifier_plots.py',
         'csklearn/plots/permutation_importances.py',
