@@ -39,14 +39,14 @@ jobs:
     - name: Run tests/test_1.py
       run: python tests/test_1.py
 
-    # COMPILE PYPI PACKAGE AND PUBLISH
-    - name: Compile code
-      run: python setup.py sdist
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        # username: danielruneda
-        password: ${{ secrets.TEST_PYPI_PASSWORD }}
+    # # COMPILE PYPI PACKAGE AND PUBLISH
+    # - name: Compile code
+    #   run: python setup.py sdist
+    # - name: Publish package
+    #   uses: pypa/gh-action-pypi-publish@master
+    #   with:
+    #     # username: danielruneda
+    #     password: ${{ secrets.TEST_PYPI_PASSWORD }}
 
     # # MAKE DOCUMENTATION
     - name: Documentation
