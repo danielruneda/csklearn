@@ -43,7 +43,7 @@ jobs:
     - name: Compile code
       run: python setup.py sdist
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@main
+      uses: pypa/gh-action-pypi-publish@master
       with:
         # username: danielruneda
         password: ${{ secrets.TEST_PYPI_PASSWORD }}
