@@ -48,9 +48,14 @@ jobs:
     #     # username: danielruneda
     #     password: ${{ secrets.TEST_PYPI_PASSWORD }}
 
-    # # MAKE DOCUMENTATION
-    - name: Documentation
-      run: cd docs && sphinx-apidoc -f -o . .. && make html && cp -a _build/html/. ../docs && make clean && make github
+
+    # PREPARE DOCUMENTATION
+    - name: Prepare documentation
+      run: cd docs && sphinx-apidoc -f -o . .. && make html
+
+    # UPLOAD DOCUMENTATION
+    - name: Push Documentation
+      run:  cp -a _build/html/. ../docs && make clean && make github
     - name: Deploy documentation
       uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
       with:
