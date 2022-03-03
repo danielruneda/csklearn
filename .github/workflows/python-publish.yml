@@ -48,12 +48,12 @@ jobs:
         # username: danielruneda
         password: ${{ secrets.TEST_PYPI_PASSWORD }}
 
-    # MAKE DOCUMENTATION
-    - name: Documentation
-      run: cd docs && sphinx-apidoc -f -o . .. && make html
-    - name: Deploy documentation
-      uses: danielruneda/csklearn@main
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/_build/html
+    # # MAKE DOCUMENTATION
+    # - name: Documentation
+    #   run: cd docs && sphinx-apidoc -f -o . .. && make html
+    # - name: Deploy documentation
+    #   uses: danielruneda/csklearn@main
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_dir: ./docs/_build/html
 
