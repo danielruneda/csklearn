@@ -83,13 +83,11 @@ class TextCleaning(BaseEstimator, TransformerMixin):
         return self
 
 
-    def transform(self, X, y=None):
+    def transform(self, X):
         """Given a raw matrix string, return cleaned text
 
         Args:
             X (pd.Dataframe or np.array): matrix with text fields
-            y ([type], optional): Not used, only for compatibility with sklearn.
-                Defaults to None.
 
         Returns:
             np.array: array with text cleaned

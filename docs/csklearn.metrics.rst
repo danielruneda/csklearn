@@ -20,6 +20,14 @@ csklearn.metrics.root\_mean\_squared\_error module
    :undoc-members:
    :show-inheritance:
 
+csklearn.metrics.root\_mean\_squared\_error2 module
+---------------------------------------------------
+
+.. automodule:: csklearn.metrics.root_mean_squared_error2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

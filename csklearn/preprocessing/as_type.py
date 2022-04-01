@@ -12,12 +12,11 @@ class as_str(BaseEstimator, TransformerMixin):
         """Dummy fit function that does nothing particular."""
         return self
 
-    def transform(self, X, y=None, **kwargs):
+    def transform(self, X, **kwargs):
         """Convert input column X as string type
 
         Args:
             X ([type]): [description]
-            y ([type], optional): Do nothing. Defaults to None.
 
         Returns:
             [type]: [description]

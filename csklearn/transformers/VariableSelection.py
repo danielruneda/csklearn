@@ -16,10 +16,9 @@ class VariableSelection(BaseEstimator, TransformerMixin):
         """
         self.columns = columns
         self.feature_names_in_ = columns
-        n_features_in_ = len(columns)
-
         
-    def fit(self, X, y=None):
+        
+    def fit(self, X:pd.DataFrame, y=None):
         """Get columns from X, and keep useful variables and drop useless.
         This transformer is useful when you are not sure if your new datasets
         have new columns that you don't need. In that case, automatically new
@@ -37,13 +36,11 @@ class VariableSelection(BaseEstimator, TransformerMixin):
         return self
         
 
-    def transform(self, X, y=None):
+    def transform(self, X:pd.DataFrame) -> pd.DataFrame:
         """Returns X with columns needed to fit the model
 
         Args:
             X (pd.DataFrame): X matrix with column names.
-            y (array-like): array-like of shape (n_samples, ).
-                Do nothing. Defaults to None.
 
         Returns:
             [pd.DataFrame]: X with columns filtered
@@ -56,7 +53,7 @@ class VariableSelection(BaseEstimator, TransformerMixin):
 
 
     def get_feature_names_out(self, features_in=None):
-        """[summary]
+        """To get column names after transformation.
 
         Args:
             features_in (array, optional): Dummy Argument for compatibility. 
