@@ -133,3 +133,5 @@ dmypy.json
 .credentials.txt
 
 *.pyc
+
+tmp/
