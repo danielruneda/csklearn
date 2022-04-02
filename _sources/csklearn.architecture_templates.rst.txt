@@ -1,0 +1,21 @@
+csklearn.architecture\_templates package
+========================================
+
+Submodules
+----------
+
+csklearn.architecture\_templates.tabular\_nlp module
+----------------------------------------------------
+
+.. automodule:: csklearn.architecture_templates.tabular_nlp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: csklearn.architecture_templates
+   :members:
+   :undoc-members:
+   :show-inheritance:

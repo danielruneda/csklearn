@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.metrics.get_scores &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+        
+      <li>csklearn.metrics.get_scores</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para csklearn.metrics.get_scores</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="get_score"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_score">[documentos]</a><span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get score from an element of d_scorer</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        y_test (array-like): array-like of shape (n_samples,). Test data</span>
+<span class="sd">        y_pred (array-like): array-like of shape (n_samples,). Predicted data</span>
+<span class="sd">        scorer (float): sklearn scorer</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [float]: score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_score_func&#39;</span><span class="p">]</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_kwargs&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_pipe_score"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_pipe_score">[documentos]</a><span class="k">def</span> <span class="nf">get_pipe_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">:</span><span class="n">Pipeline</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get score given a Pipeline</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pipe (Pipeline): sklearn pipeline.</span>
+<span class="sd">        X_test (array-like): array-like of shape (n_samples, n_features).</span>
+<span class="sd">        y_test (array-like): array-like of shape (n_samples,).</span>
+<span class="sd">        scorer (_PredictScorer): sklearn scorer</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Handle with predict and predict_proba</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">scorer</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">scorer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_scores"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_scores">[documentos]</a><span class="k">def</span> <span class="nf">get_scores</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">d_scorer</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get scores given a dictionary of scorers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        y_test (_type_): (array-like): array-like of shape (n_samples,).</span>
+<span class="sd">        y_pred (_type_): (array-like): array-like of shape (n_samples,).</span>
+<span class="sd">        d_scorer (dict): dictionary of {key:make_scorer()}.</span>
+<span class="sd">        prefix (str, optional): _description_. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: _description_</span>
+
+<span class="sd">    Example of d_scorer input:</span>
+<span class="sd">        d_scorer = {</span>
+<span class="sd">            &#39;rmse&#39;:make_scorer(mean_squared_error),</span>
+<span class="sd">            &#39;mae&#39;:make_scorer(mean_absolute_error),</span>
+<span class="sd">            &#39;r2&#39;:make_scorer(r2_score)</span>
+<span class="sd">        }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_&#39;</span> <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+<div class="viewcode-block" id="get_pipe_scores"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_pipe_scores">[documentos]</a><span class="k">def</span> <span class="nf">get_pipe_scores</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">d_scorer</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="c1"># no podemos utilizar get_scores para tener en cuenta la excepcion predict_proba</span>
+    <span class="n">d_res</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Prefix case</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_&#39;</span> <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">d_res</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">prefix</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> 
+                                                <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> 
+                                                <span class="n">v</span><span class="p">)})</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">d_res</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">prefix</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">get_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> 
+                                                <span class="n">pipe</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> 
+                                                <span class="n">v</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">d_res</span></div>
+
+
+<div class="viewcode-block" id="get_cv"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_cv">[documentos]</a><span class="k">def</span> <span class="nf">get_cv</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">d_scorer</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;cv&#39;</span><span class="p">,</span> <span class="n">dec_round</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> 
+                                                    <span class="n">return_times</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                                                    <span class="n">return_estimators</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="c1"># To get useful info</span>
+    <span class="n">regex_filter</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+    <span class="k">if</span> <span class="n">return_times</span><span class="p">:</span>
+        <span class="n">regex_filter</span> <span class="o">=</span> <span class="s1">&#39;(test|fit_time)&#39;</span>
+
+    <span class="c1"># Crossvalidate with sklearn function</span>
+    <span class="n">cv_output</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">d_scorer</span><span class="p">,</span> 
+                                            <span class="n">return_estimator</span><span class="o">=</span><span class="n">return_estimators</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+
+    <span class="c1"># Results</span>
+    <span class="n">d_cv_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;fit&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span><span class="n">v</span> 
+                                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">cv_output</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
+                                        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex_filter</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">k</span><span class="p">)}</span>
+    <span class="n">d_cv_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> 
+                                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">d_cv_results</span><span class="p">[</span><span class="n">k</span><span class="p">])}</span>
+    <span class="c1"># print(d_cv_results)</span>
+
+    <span class="c1"># Median</span>
+    <span class="n">d_cv_results_median</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+    <span class="c1"># Mean</span>
+    <span class="n">d_cv_results_mean</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_mean_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+    <span class="c1"># Std</span>
+    <span class="n">d_cv_results_std</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_std_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+    <span class="c1"># Mean+Std</span>
+    <span class="n">d_cv_results_std</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_meanstd_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+    <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_std</span><span class="p">)</span>
+
+    <span class="c1"># Time</span>
+    <span class="k">if</span> <span class="n">return_times</span><span class="p">:</span>
+        <span class="n">d_cv_results_times</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_mean_time&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])}</span>
+        <span class="n">d_cv_results_mean</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_times</span><span class="p">)</span>
+        <span class="n">d_cv_results_std</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_std_time&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])})</span>
+
+    <span class="c1"># Update all</span>
+    <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_median</span><span class="p">)</span>
+    <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_mean</span><span class="p">)</span>
+    <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_std</span><span class="p">)</span>
+    <span class="n">d_cv_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dec_round</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
+                                                    <span class="k">if</span> <span class="s1">&#39;meanstd&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">}</span>
+
+    <span class="c1"># Mean+Std</span>
+    <span class="n">d_ms</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span><span class="s1">&#39;meanstd&#39;</span><span class="p">):</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">+-</span><span class="si">{:}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="n">dec_round</span><span class="p">),</span>
+                                                            <span class="nb">round</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span><span class="n">dec_round</span><span class="p">))</span> 
+                                <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d_cv_results_mean</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> 
+                                                    <span class="n">d_cv_results_mean</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> 
+                                                    <span class="n">d_cv_results_std</span><span class="o">.</span><span class="n">values</span><span class="p">())}</span>
+    <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_ms</span><span class="p">)</span>
+    
+
+    <span class="c1"># Add Estimators</span>
+    <span class="k">if</span> <span class="n">return_estimators</span><span class="p">:</span>
+        <span class="n">cv_estimators</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fitted_estimator_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> 
+                                            <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv_output</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">])}</span>
+        <span class="n">d_cv_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cv_estimators</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">d_cv_results</span></div>
+
+
+<div class="viewcode-block" id="get_cv_scores_from_cv_results"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_cv_scores_from_cv_results">[documentos]</a><span class="k">def</span> <span class="nf">get_cv_scores_from_cv_results</span><span class="p">(</span><span class="n">d_cv_results</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span> 
+                                    <span class="n">only_mean</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                    <span class="n">mean_str</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+                                    <span class="n">prefix</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;cv&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Función muy particular para obtener predicción en otro conjunto de cada</span>
+<span class="sd">    fold. Coge el d_cv_results de la función get_scores_cv filtrando.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        d_cv_results (dict): diccionario generado por la función get_cv()</span>
+<span class="sd">        only_mean (bool, optional): devolver sólo las medias (evitando los</span>
+<span class="sd">            resultados de cada fold). Defaults to True.</span>
+<span class="sd">        mean_str (bool, optional): para devolver como string mean+-std. </span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        prefix (str, optional): prefijo de la validación. Defaults to &#39;cv&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: diccionario con los resultados</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">only_mean</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mean_str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> 
+                        <span class="p">((</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="o">|</span>\
+                        <span class="p">(</span><span class="s1">&#39;meanstd&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))}</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">only_mean</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> 
+                        <span class="p">(((</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_mean&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))</span> <span class="o">&amp;</span>\
+                        <span class="p">(</span><span class="s1">&#39;meanstd&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">prefix</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="get_test_scores_from_cv_results"><a class="viewcode-back" href="../../../csklearn.metrics.html#csklearn.metrics.get_scores.get_test_scores_from_cv_results">[documentos]</a><span class="k">def</span> <span class="nf">get_test_scores_from_cv_results</span><span class="p">(</span><span class="n">d_cv_results</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span> 
+                                    <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> 
+                                    <span class="n">d_scorer</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span> 
+                                    <span class="n">dec_round</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                                    <span class="n">only_mean</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                    <span class="n">mean_str</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+                                    <span class="n">prefix</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Función muy particular para obtener predicción en otro conjunto de cada</span>
+<span class="sd">    fold. Coge el d_cv_results de la función get_scores_cv, filtra y calcula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        d_cv_results (dict): diccionario generado por la función get_cv()</span>
+<span class="sd">        X_test (pd.DataFrame): [description]</span>
+<span class="sd">        y_test (pd.Series): [description]</span>
+<span class="sd">        d_scorer (dict): diccionario con los scorers de SKLearn.</span>
+<span class="sd">        dec_round (int): decimal a redondear. Defaults to 4.</span>
+<span class="sd">        only_mean (bool, optional): devolver sólo las medias (evitando los</span>
+<span class="sd">            resultados de cada fold). Defaults to True.</span>
+<span class="sd">        mean_str (bool, optional): para devolver como string mean+-std. </span>
+<span class="sd">            Defaults to True. Defaults to True.</span>
+<span class="sd">        prefix (str, optional): prefijo de la validación. Defaults to &#39;test&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: diccionario con los resultados</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Score in Test</span>
+    <span class="n">d_res_test</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">get_pipe_scores</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">d_scorer</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span> 
+                                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">est</span> <span class="ow">in</span>  <span class="n">d_cv_results</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
+                                            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;fitted_estimator&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)}</span>
+
+    <span class="n">d_res_test</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;fitted_&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">k2</span><span class="p">:</span><span class="n">v2</span> 
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">d_res_test</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span>
+                            <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]]):</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="c1"># Median</span>
+    <span class="n">d_res_test</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">([</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()})</span>
+    
+    <span class="c1"># Mean</span>
+    <span class="n">d_cv_results_mean</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_mean_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+    <span class="n">d_res_test</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_mean</span><span class="p">)</span>
+
+    <span class="c1"># Std</span>
+    <span class="n">d_cv_results_std</span> <span class="o">=</span> <span class="p">{</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_std_&#39;</span><span class="o">+</span><span class="n">k</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">v2</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">k2</span><span class="p">])</span> 
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d_scorer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+    <span class="n">d_res_test</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_cv_results_std</span><span class="p">)</span>
+
+    <span class="c1"># Round</span>
+    <span class="n">d_res_test</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dec_round</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
+                                                    <span class="k">if</span> <span class="s1">&#39;meanstd&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">}</span>
+
+    <span class="c1"># Mean+Std</span>
+    <span class="n">d_ms</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span><span class="s1">&#39;meanstd&#39;</span><span class="p">):</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">+-</span><span class="si">{:}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="n">dec_round</span><span class="p">),</span>
+                                                            <span class="nb">round</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span><span class="n">dec_round</span><span class="p">))</span> 
+                                <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d_cv_results_mean</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> 
+                                                    <span class="n">d_cv_results_mean</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> 
+                                                    <span class="n">d_cv_results_std</span><span class="o">.</span><span class="n">values</span><span class="p">())}</span>
+    <span class="n">d_res_test</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d_ms</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">only_mean</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mean_str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> 
+                                <span class="p">(</span> <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median_&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="o">|</span>
+                                  <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_meanstd_&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
+                                <span class="p">)}</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">only_mean</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_res_test</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> 
+                                <span class="p">(</span> <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_median_&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="o">|</span>
+                                  <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_mean_&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="o">|</span>
+                                  <span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_std_&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d_res_test</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

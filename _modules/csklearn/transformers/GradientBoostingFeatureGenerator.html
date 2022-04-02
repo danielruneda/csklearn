@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.transformers.GradientBoostingFeatureGenerator &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+        
+      <li>csklearn.transformers.GradientBoostingFeatureGenerator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para csklearn.transformers.GradientBoostingFeatureGenerator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.multiclass</span> <span class="kn">import</span> <span class="n">check_classification_targets</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">_check_feature_names_in</span>
+
+
+<div class="viewcode-block" id="GradientBoostingFeatureGenerator"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator">[documentos]</a><span class="k">class</span> <span class="nc">GradientBoostingFeatureGenerator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Feature generator from a gradient boosting.</span>
+
+<span class="sd">    Gradient boosting decision trees are a powerful and very convenient way to implement non-linear and tuple transformations.</span>
+<span class="sd">    We treat each individual tree as a categorical feature that takes as value the index of the leaf an instance ends up falling in</span>
+<span class="sd">    and then perform one hot encoding for these features.</span>
+
+<span class="sd">     Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stack_to_X: bool, default = True</span>
+<span class="sd">        Generates leaves features using the fitted self.gbm and saves them in R.</span>
+<span class="sd">        If `stack_to_X is True` then `.transform` returns the original features with &#39;R&#39; appended as columns.</span>
+<span class="sd">        If `stack_to_X is False` then  `.transform` returns only the leaves features from &#39;R&#39;</span>
+
+<span class="sd">    add_probs: bool, default = False</span>
+<span class="sd">        If `add_probs is True` then the created features are appended a probability [0,1].</span>
+<span class="sd">        If `add_probs is False` features are binary</span>
+
+
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; from sktools import GradientBoostingFeatureGenerator</span>
+<span class="sd">    &gt;&gt;&gt; from sklearn.datasets import make_classification</span>
+<span class="sd">    &gt;&gt;&gt; X, y = make_classification()</span>
+<span class="sd">    &gt;&gt;&gt; mf = GradientBoostingFeatureGenerator()</span>
+<span class="sd">    &gt;&gt;&gt; mf.fit(X, y)</span>
+<span class="sd">    &gt;&gt;&gt; mf.transform(X)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [1] Practical Lessons from Predicting Clicks on Ads at Facebook, from</span>
+<span class="sd">    https://research.fb.com/wp-content/uploads/2016/11/practical-lessons-from-predicting-clicks-on-ads-at-facebook.pdf</span>
+
+<span class="sd">    .. [2] Feature Generation with Gradient Boosted Decision Trees, Towards Data Science, Carlos Mougan</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">stack_to_X</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">add_probs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">regression</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="c1"># Deciding whether to append features or simply return generated features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack_to_X</span> <span class="o">=</span> <span class="n">stack_to_X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_probs</span> <span class="o">=</span> <span class="n">add_probs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regression</span> <span class="o">=</span> <span class="n">regression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feat_names</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># needed to get_feature_names_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_features</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># needed for input features inside pipeline</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression</span><span class="p">:</span>
+            <span class="c1"># Key arguments for the gradient boosting regressor</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Key arguments for the gradient boosting classifier</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">X_leaves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Difference in return methods</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression</span><span class="p">:</span>
+            <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span> <span class="o">=</span> <span class="n">X_leaves</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X_leaves</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">X_leaves</span> <span class="o">=</span> <span class="n">X_leaves</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">X_leaves</span>
+
+
+    <span class="k">def</span> <span class="nf">_predict_probs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Key arguments for the gradient boosting regressor</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Key arguments for the gradient boosting classifier</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_decode_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="GradientBoostingFeatureGenerator.fit"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.fit">[documentos]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+        <span class="c1"># Get names if is a pandas dataframe (probably the first step)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># Check that is a classification target</span>
+            <span class="n">check_classification_targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gbm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+        <span class="n">X_leaves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_leaves</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_leaves</span><span class="p">)</span>
+
+        <span class="c1"># get feature names:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># we dont want to return X_new</span>
+
+        <span class="k">return</span> <span class="bp">self</span>      </div>
+
+
+<div class="viewcode-block" id="GradientBoostingFeatureGenerator.transform"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.transform">[documentos]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        L contains the matrix with the encoded leaves. The shape depends upon the parameters.</span>
+<span class="sd">        P contains a two columns array with the probability.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decode_leaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_leaves</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feat_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gbL&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_probs</span><span class="p">:</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_probs</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">feat_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat_names</span><span class="o">+</span>\
+                                <span class="p">[</span><span class="s1">&#39;gbP&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">L</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span>
+            <span class="n">X_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack_to_X</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">L</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack_to_X</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">L</span>
+        <span class="k">return</span> <span class="n">X_new</span></div>
+
+
+<div class="viewcode-block" id="GradientBoostingFeatureGenerator.get_feature_names_out"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.get_feature_names_out">[documentos]</a>    <span class="k">def</span> <span class="nf">get_feature_names_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get output feature names for transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_features : array-like of str or None, default=None</span>
+<span class="sd">            Input features.</span>
+
+<span class="sd">            - If `input_features` is `None`, then `feature_names_in_` is</span>
+<span class="sd">              used as feature names in. If `feature_names_in_` is not defined,</span>
+<span class="sd">              then names are generated: `[x0, x1, ..., x(n_features_in_)]`.</span>
+<span class="sd">            - If `input_features` is an array-like, then `input_features` must</span>
+<span class="sd">              match `feature_names_in_` if `feature_names_in_` is defined.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        feature_names_out : ndarray of str objects</span>
+<span class="sd">            Transformed feature names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_features</span>
+        <span class="k">if</span> <span class="n">input_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_features</span> <span class="o">=</span> <span class="n">_check_feature_names_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_features</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">feat_names</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">object</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

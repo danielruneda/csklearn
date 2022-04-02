@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.feature_selection package &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">csklearn.feature_selection package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-csklearn.feature_selection.correlation_threshold">csklearn.feature_selection.correlation_threshold module</a></li>
+<li><a class="reference internal" href="#module-csklearn.feature_selection">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>csklearn.feature_selection package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/csklearn.feature_selection.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="csklearn-feature-selection-package">
+<h1>csklearn.feature_selection package<a class="headerlink" href="#csklearn-feature-selection-package" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+<div class="section" id="module-csklearn.feature_selection.correlation_threshold">
+<span id="csklearn-feature-selection-correlation-threshold-module"></span><h2>csklearn.feature_selection.correlation_threshold module<a class="headerlink" href="#module-csklearn.feature_selection.correlation_threshold" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.feature_selection.correlation_threshold.CorrelationThreshold">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.feature_selection.correlation_threshold.</span></code><code class="sig-name descname"><span class="pre">CorrelationThreshold</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/feature_selection/correlation_threshold.html#CorrelationThreshold"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.feature_selection.correlation_threshold.CorrelationThreshold" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Removes columns based on correlation between columns.</p>
+<dl class="py attribute">
+<dt id="csklearn.feature_selection.correlation_threshold.CorrelationThreshold.threshold">
+<code class="sig-name descname"><span class="pre">threshold</span></code><a class="headerlink" href="#csklearn.feature_selection.correlation_threshold.CorrelationThreshold.threshold" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>if higher than threshold, then column will be removed!</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.feature_selection.correlation_threshold.CorrelationThreshold.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/feature_selection/correlation_threshold.html#CorrelationThreshold.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.feature_selection.correlation_threshold.CorrelationThreshold.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Fit method for train subset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – input matrix.</p></li>
+<li><p><strong>y</strong> (<em>array-like</em>) – not needed, exists for compatibility.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.feature_selection.correlation_threshold.CorrelationThreshold.get_feature_names_out">
+<code class="sig-name descname"><span class="pre">get_feature_names_out</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="reference internal" href="_modules/csklearn/feature_selection/correlation_threshold.html#CorrelationThreshold.get_feature_names_out"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.feature_selection.correlation_threshold.CorrelationThreshold.get_feature_names_out" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>To get column names after transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>features_in</strong> (<em>array</em><em>, </em><em>optional</em>) – Dummy Argument for compatibility.
+Defaults to None.</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>List of strings with column names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.feature_selection.correlation_threshold.CorrelationThreshold.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">numpy.array</span><a class="reference internal" href="_modules/csklearn/feature_selection/correlation_threshold.html#CorrelationThreshold.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.feature_selection.correlation_threshold.CorrelationThreshold.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>array-like</em>) – input matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.feature_selection">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-csklearn.feature_selection" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

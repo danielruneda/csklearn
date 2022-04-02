@@ -1,0 +1,29 @@
+csklearn.wrappers package
+=========================
+
+Submodules
+----------
+
+csklearn.wrappers.wrapper\_ce\_feature\_names\_out module
+---------------------------------------------------------
+
+.. automodule:: csklearn.wrappers.wrapper_ce_feature_names_out
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.wrappers.wrapper\_feature\_names\_out module
+-----------------------------------------------------
+
+.. automodule:: csklearn.wrappers.wrapper_feature_names_out
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: csklearn.wrappers
+   :members:
+   :undoc-members:
+   :show-inheritance:

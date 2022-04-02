@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.transformers package &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">csklearn.transformers package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-csklearn.transformers.GradientBoostingFeatureGenerator">csklearn.transformers.GradientBoostingFeatureGenerator module</a></li>
+<li><a class="reference internal" href="#module-csklearn.transformers.ModelTransformer">csklearn.transformers.ModelTransformer module</a></li>
+<li><a class="reference internal" href="#module-csklearn.transformers.VariableSelection">csklearn.transformers.VariableSelection module</a></li>
+<li><a class="reference internal" href="#module-csklearn.transformers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>csklearn.transformers package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/csklearn.transformers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="csklearn-transformers-package">
+<h1>csklearn.transformers package<a class="headerlink" href="#csklearn-transformers-package" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+<div class="section" id="module-csklearn.transformers.GradientBoostingFeatureGenerator">
+<span id="csklearn-transformers-gradientboostingfeaturegenerator-module"></span><h2>csklearn.transformers.GradientBoostingFeatureGenerator module<a class="headerlink" href="#module-csklearn.transformers.GradientBoostingFeatureGenerator" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.transformers.GradientBoostingFeatureGenerator.</span></code><code class="sig-name descname"><span class="pre">GradientBoostingFeatureGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_to_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/GradientBoostingFeatureGenerator.html#GradientBoostingFeatureGenerator"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Feature generator from a gradient boosting.</p>
+<p>Gradient boosting decision trees are a powerful and very convenient way to implement non-linear and tuple transformations.
+We treat each individual tree as a categorical feature that takes as value the index of the leaf an instance ends up falling in
+and then perform one hot encoding for these features.</p>
+<blockquote>
+<div><p>Parameters</p>
+</div></blockquote>
+<dl class="simple">
+<dt>stack_to_X: bool, default = True</dt><dd><p>Generates leaves features using the fitted self.gbm and saves them in R.
+If <cite>stack_to_X is True</cite> then <cite>.transform</cite> returns the original features with “R” appended as columns.
+If <cite>stack_to_X is False</cite> then  <cite>.transform</cite> returns only the leaves features from “R”</p>
+</dd>
+<dt>add_probs: bool, default = False</dt><dd><p>If <cite>add_probs is True</cite> then the created features are appended a probability [0,1].
+If <cite>add_probs is False</cite> features are binary</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sktools</span> <span class="kn">import</span> <span class="n">GradientBoostingFeatureGenerator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">GradientBoostingFeatureGenerator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Referencias</p>
+<dl class="footnote brackets">
+<dt class="label" id="id1"><span class="brackets">1</span></dt>
+<dd><p>Practical Lessons from Predicting Clicks on Ads at Facebook, from</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://research.fb.com/wp-content/uploads/2016/11/practical-lessons-from-predicting-clicks-on-ads-at-facebook.pdf">https://research.fb.com/wp-content/uploads/2016/11/practical-lessons-from-predicting-clicks-on-ads-at-facebook.pdf</a></p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets">2</span></dt>
+<dd><p>Feature Generation with Gradient Boosted Decision Trees, Towards Data Science, Carlos Mougan</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/GradientBoostingFeatureGenerator.html#GradientBoostingFeatureGenerator.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.get_feature_names_out">
+<code class="sig-name descname"><span class="pre">get_feature_names_out</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/GradientBoostingFeatureGenerator.html#GradientBoostingFeatureGenerator.get_feature_names_out"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.get_feature_names_out" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Get output feature names for transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>input_features</strong> (<em>array-like of str</em><em> or </em><em>None</em><em>, </em><em>default=None</em>) – <p>Input features.</p>
+<ul class="simple">
+<li><p>If <cite>input_features</cite> is <cite>None</cite>, then <cite>feature_names_in_</cite> is
+used as feature names in. If <cite>feature_names_in_</cite> is not defined,
+then names are generated: <cite>[x0, x1, …, x(n_features_in_)]</cite>.</p></li>
+<li><p>If <cite>input_features</cite> is an array-like, then <cite>input_features</cite> must
+match <cite>feature_names_in_</cite> if <cite>feature_names_in_</cite> is defined.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p><strong>feature_names_out</strong> – Transformed feature names.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>ndarray of str objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/GradientBoostingFeatureGenerator.html#GradientBoostingFeatureGenerator.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.GradientBoostingFeatureGenerator.GradientBoostingFeatureGenerator.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>L contains the matrix with the encoded leaves. The shape depends upon the parameters.
+P contains a two columns array with the probability.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.transformers.ModelTransformer">
+<span id="csklearn-transformers-modeltransformer-module"></span><h2>csklearn.transformers.ModelTransformer module<a class="headerlink" href="#module-csklearn.transformers.ModelTransformer" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.transformers.ModelTransformer.ModelTransformer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.transformers.ModelTransformer.</span></code><code class="sig-name descname"><span class="pre">ModelTransformer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict_proba</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_first_prob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix_output</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'mt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/ModelTransformer.html#ModelTransformer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.ModelTransformer.ModelTransformer" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Convert an estimator into transformer. Is useful to use model predictions
+as predictors. It works by using indexes of «X» to find those of «y».</p>
+<dl class="py method">
+<dt id="csklearn.transformers.ModelTransformer.ModelTransformer.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/ModelTransformer.html#ModelTransformer.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.ModelTransformer.ModelTransformer.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Usual fit from SKLearn framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Muestra</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Exception</strong> – if «y» is not a pd.Series or pd.DataFrame.</p></li>
+<li><p><strong>Exception</strong> – if «y» does not have all «X» indexes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.ModelTransformer.ModelTransformer.get_feature_names_out">
+<code class="sig-name descname"><span class="pre">get_feature_names_out</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/ModelTransformer.html#ModelTransformer.get_feature_names_out"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.ModelTransformer.ModelTransformer.get_feature_names_out" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Get feature names after preprocessing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>features_in</strong> (<em>array</em><em>, </em><em>optional</em>) – Dummy Argument for compatibility.
+Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.ModelTransformer.ModelTransformer.get_params">
+<code class="sig-name descname"><span class="pre">get_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/ModelTransformer.html#ModelTransformer.get_params"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.ModelTransformer.ModelTransformer.get_params" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.ModelTransformer.ModelTransformer.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">transform_params</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="_modules/csklearn/transformers/ModelTransformer.html#ModelTransformer.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.ModelTransformer.ModelTransformer.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Usual transform in SKLearn framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>array-like</em>) – X matrix.</p>
+</dd>
+<dt class="field-even">Muestra</dt>
+<dd class="field-even"><p><strong>Exception</strong> – if predict and predict_proba are both set in False.</p>
+</dd>
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>transformed matrix with new columns.</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.transformers.VariableSelection">
+<span id="csklearn-transformers-variableselection-module"></span><h2>csklearn.transformers.VariableSelection module<a class="headerlink" href="#module-csklearn.transformers.VariableSelection" title="Enlazar permanentemente con este título">¶</a></h2>
+<dl class="py class">
+<dt id="csklearn.transformers.VariableSelection.VariableSelection">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">csklearn.transformers.VariableSelection.</span></code><code class="sig-name descname"><span class="pre">VariableSelection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/VariableSelection.html#VariableSelection"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.VariableSelection.VariableSelection" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>Transformer which keep necessary columns to run the model.</p>
+<dl class="py method">
+<dt id="csklearn.transformers.VariableSelection.VariableSelection.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/VariableSelection.html#VariableSelection.fit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.VariableSelection.VariableSelection.fit" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Get columns from X, and keep useful variables and drop useless.
+This transformer is useful when you are not sure if your new datasets
+have new columns that you don’t need. In that case, automatically new
+variables will be droped and passthrought error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – X matrix with column names.</p></li>
+<li><p><strong>y</strong> (<em>array-like</em>) – array-like of shape (n_samples, ).
+Do nothing. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>X with columns filtered</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.VariableSelection.VariableSelection.get_feature_names_out">
+<code class="sig-name descname"><span class="pre">get_feature_names_out</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csklearn/transformers/VariableSelection.html#VariableSelection.get_feature_names_out"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.VariableSelection.VariableSelection.get_feature_names_out" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>To get column names after transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>features_in</strong> (<em>array</em><em>, </em><em>optional</em>) – Dummy Argument for compatibility.
+Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="csklearn.transformers.VariableSelection.VariableSelection.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="_modules/csklearn/transformers/VariableSelection.html#VariableSelection.transform"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#csklearn.transformers.VariableSelection.VariableSelection.transform" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns X with columns needed to fit the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pd.DataFrame</em>) – X matrix with column names.</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>X with columns filtered</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-csklearn.transformers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-csklearn.transformers" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

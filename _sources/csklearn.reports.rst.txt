@@ -1,0 +1,77 @@
+csklearn.reports package
+========================
+
+Submodules
+----------
+
+csklearn.reports.classifier\_plots module
+-----------------------------------------
+
+.. automodule:: csklearn.reports.classifier_plots
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.get\_classification\_report module
+---------------------------------------------------
+
+.. automodule:: csklearn.reports.get_classification_report
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.get\_mean\_predict\_proba module
+-------------------------------------------------
+
+.. automodule:: csklearn.reports.get_mean_predict_proba
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.permutation\_importances module
+------------------------------------------------
+
+.. automodule:: csklearn.reports.permutation_importances
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.perturbate\_and\_validate module
+-------------------------------------------------
+
+.. automodule:: csklearn.reports.perturbate_and_validate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.plot\_model\_importances module
+------------------------------------------------
+
+.. automodule:: csklearn.reports.plot_model_importances
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.plot\_pca\_variability module
+----------------------------------------------
+
+.. automodule:: csklearn.reports.plot_pca_variability
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.reports.regressor\_plots module
+----------------------------------------
+
+.. automodule:: csklearn.reports.regressor_plots
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: csklearn.reports
+   :members:
+   :undoc-members:
+   :show-inheritance:

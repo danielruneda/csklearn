@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.transformers.ModelTransformer &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+        
+      <li>csklearn.transformers.ModelTransformer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para csklearn.transformers.ModelTransformer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">TransformerMixin</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="ModelTransformer"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.ModelTransformer.ModelTransformer">[documentos]</a><span class="k">class</span> <span class="nc">ModelTransformer</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert an estimator into transformer. Is useful to use model predictions </span>
+<span class="sd">    as predictors. It works by using indexes of &quot;X&quot; to find those of &quot;y&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> 
+                        <span class="n">df_y</span><span class="p">,</span> 
+                        <span class="n">predict</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                        <span class="n">predict_proba</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                        <span class="n">drop_first_prob</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+                        <span class="n">prefix_output</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mt&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialization with model and target &quot;y&quot; with indexes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (_type_): _description_</span>
+<span class="sd">            df_y (pd.Series or pd.DataFrame): target &quot;y&quot; with all &quot;X&quot; indexes.</span>
+<span class="sd">            predict (bool, optional): wheter include predictions. Defaults to True.</span>
+<span class="sd">            predict_proba (bool, optional): wheter include probabilities \</span>
+<span class="sd">                (only works in classification). Defaults to False.</span>
+<span class="sd">            drop_first_prob (bool, optional): whether remove 1st column in probabilities predictions. \</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            prefix_output (str, optional): set prefix to describe a step in \</span>
+<span class="sd">                Pipelines. Defaults to &#39;mt&#39;.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if target &quot;y&quot; is not a pd.Series or pd.DataFrame.</span>
+
+<span class="sd">        Example of usage:</span>
+<span class="sd">            any_target = &#39;use_a_column_as_target&#39;</span>
+<span class="sd">            df_y = df[any_target] # Specify target (will use needed indexes)</span>
+<span class="sd">            target_regt = Pipeline(steps=[</span>
+<span class="sd">                (&#39;target_tf&#39;, target_tf_fu), # Preliminary preprocessing</span>
+<span class="sd">                (&#39;target_reg&#39;, ModelTransformer(</span>
+<span class="sd">                            model = algorithm,</span>
+<span class="sd">                                    predict_labels = True,</span>
+<span class="sd">                                    predict_probs = False,</span>
+<span class="sd">                                    df_y = df_y, # ModelTransformer select indexes!</span>
+<span class="sd">                            )),</span>
+<span class="sd">            ])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict</span> <span class="o">=</span> <span class="n">predict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span> <span class="o">=</span> <span class="n">predict_proba</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_first_prob</span> <span class="o">=</span> <span class="n">drop_first_prob</span> <span class="c1"># Eliminar la primera columna de predict_proba</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix_output</span> <span class="o">=</span> <span class="n">prefix_output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_feature_names_out</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span> <span class="o">=</span> <span class="n">df_y</span>
+        
+        <span class="c1"># Important check</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df_y</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">|</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df_y</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span> <span class="o">=</span> <span class="n">df_y</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;ModelTransformer Error: &quot;y&quot; argument must be pd.Series or pd.DataFrame&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ModelTransformer.get_params"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.ModelTransformer.ModelTransformer.get_params">[documentos]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">predict_proba</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span> 
+                    <span class="n">drop_first_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_first_prob</span><span class="p">,</span>
+                    <span class="n">df_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df_y</span><span class="p">,</span> <span class="n">prefix_output</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ModelTransformer.fit"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.ModelTransformer.ModelTransformer.fit">[documentos]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Usual fit from SKLearn framework.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if &quot;y&quot; is not a pd.Series or pd.DataFrame.</span>
+<span class="sd">            Exception: if &quot;y&quot; does not have all &quot;X&quot; indexes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get indexes from X</span>
+        <span class="n">X_</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># usually is a matrix</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># we need to be a pd.series</span>
+
+        <span class="c1"># Print to check if is working (SKLEARN 1.0.1 - 16/12/2021 works):</span>
+        <span class="c1"># print(&#39;Indices not used to fit:&#39;)</span>
+        <span class="c1"># print([x for x in self.df_y.index if x not in y_.index])</span>
+
+        <span class="c1"># sanity check</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">y_</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">|</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;ModelTransformer Error: pd.Series or pd.DataFrame indexes are needed in &quot;y&quot;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># In args, we have X_test, so we can get indexes      </span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Sanity Check. All indexes should be in df_y</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y_</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span><span class="o">.</span><span class="n">index</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;ModelTransformer Error: &quot;df_y&quot; indexes does not</span><span class="se">\</span>
+<span class="s1"> match with &quot;X&quot; indexes. &quot;df_y&quot; should have all &quot;X&quot; indexes (you can use the entire &quot;df_y&quot;).&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y_</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Get feature names!</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_</span><span class="p">)</span> <span class="c1"># doesn&#39;t return anything!</span>
+        
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">Xtrf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Xtrf</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_output</span><span class="o">+</span><span class="s1">&#39;p_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_first_prob</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># From 1st column to the rest (avoid colineality)</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">cols</span>
+    
+
+    <span class="k">def</span> <span class="nf">_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">Xtrf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Xtrf</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_output</span><span class="o">+</span><span class="s1">&#39;l_&#39;</span><span class="o">+</span><span class="s1">&#39;_y&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">cols</span>
+
+
+<div class="viewcode-block" id="ModelTransformer.transform"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.ModelTransformer.ModelTransformer.transform">[documentos]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Usual transform in SKLearn framework.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (array-like): X matrix.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if predict and predict_proba are both set in False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: transformed matrix with new columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">):</span>
+            <span class="n">arrp</span><span class="p">,</span> <span class="n">colsp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">arrl</span><span class="p">,</span> <span class="n">colsl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">arrp</span><span class="p">,</span> <span class="n">arrl</span><span class="p">])</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">colsp</span><span class="p">,</span> <span class="n">colsl</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">):</span>
+            <span class="n">arr</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">:</span>
+            <span class="n">arr</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;predict_proba or predict methods must be at least one True&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_feature_names_out</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">cols</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ModelTransformer.get_feature_names_out"><a class="viewcode-back" href="../../../csklearn.transformers.html#csklearn.transformers.ModelTransformer.ModelTransformer.get_feature_names_out">[documentos]</a>    <span class="k">def</span> <span class="nf">get_feature_names_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_in</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get feature names after preprocessing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            features_in (array, optional): Dummy Argument for compatibility. </span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_names_out</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

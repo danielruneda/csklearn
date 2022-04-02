@@ -1,0 +1,37 @@
+csklearn.utils package
+======================
+
+Submodules
+----------
+
+csklearn.utils.check\_list\_get\_feature\_names\_out module
+-----------------------------------------------------------
+
+.. automodule:: csklearn.utils.check_list_get_feature_names_out
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.utils.check\_params module
+-----------------------------------
+
+.. automodule:: csklearn.utils.check_params
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+csklearn.utils.get\_params\_names module
+----------------------------------------
+
+.. automodule:: csklearn.utils.get_params_names
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: csklearn.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

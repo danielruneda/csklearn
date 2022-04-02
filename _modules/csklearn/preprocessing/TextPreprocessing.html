@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>csklearn.preprocessing.TextPreprocessing &mdash; documentación de csklearn - 0.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> csklearn
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">csklearn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+        
+      <li>csklearn.preprocessing.TextPreprocessing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para csklearn.preprocessing.TextPreprocessing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+
+<div class="viewcode-block" id="TextCleaning"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextCleaning">[documentos]</a><span class="k">class</span> <span class="nc">TextCleaning</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rm_whitespaces</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">normalize_method</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">stopwords</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lowercase</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">rm_numbers</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">rm_punct</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">onlywords</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">stp_lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span>
+                        <span class="n">ls_rmregex</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[—°]&#39;</span><span class="p">],</span>
+                        <span class="n">split_regexp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;[/]&#39;</span><span class="p">,</span>
+                        <span class="n">len_threshold</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;SKLearn Transformer to preprocess text as tokens and removes</span>
+<span class="sd">            extraneous characters. It is useful when semantic information cannot</span>
+<span class="sd">            be extracted from the text to be processed, but keywords can be</span>
+<span class="sd">            extracted.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rm_whitespaces (bool, optional): Remove extra white spaces.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            normalize_method (str, optional): base form of the words.</span>
+<span class="sd">                Options: [None, &#39;stemming&#39;, &#39;lemmatization&#39;]. lemmatization only</span>
+<span class="sd">                 supported with english.</span>
+<span class="sd">                Note: stemming technique only looks at the form of the word</span>
+<span class="sd">                whereas lemmatization technique looks at the meaning of the</span>
+<span class="sd">                word. It means after applying lemmatization, we will always get</span>
+<span class="sd">                a valid wordDefaults to None.</span>
+<span class="sd">            stopwords (bool, optional): Remove stop words.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            lowercase (bool, optional): Convert to lowercase.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            rm_numbers (bool, optional): Remove all digits.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            rm_punct (bool, optional): Remove all punctuations.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            stp_lang (str, optional): Language for stop words and stemmer.</span>
+<span class="sd">                Defaults to &#39;english&#39;.</span>
+<span class="sd">            ls_rmregex (tuple, optional): Regular expressions to remove words.</span>
+<span class="sd">            len_threshold (int, optional): length threshold to allow a word.</span>
+<span class="sd">                Defaults to 1.</span>
+<span class="sd">            split_regexp (str, optional): strings used to split text.</span>
+<span class="sd">                Defaults to &#39;[/]&#39;.</span>
+<span class="sd">            verbose (bool, optional): if True, shows progress bar.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Arguments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rm_whitespaces</span> <span class="o">=</span> <span class="n">rm_whitespaces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize_method</span> <span class="o">=</span> <span class="n">normalize_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lowercase</span> <span class="o">=</span> <span class="n">lowercase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rm_numbers</span> <span class="o">=</span> <span class="n">rm_numbers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onlywords</span> <span class="o">=</span> <span class="n">onlywords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rm_punct</span> <span class="o">=</span> <span class="n">rm_punct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stp_lang</span> <span class="o">=</span> <span class="n">stp_lang</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ls_rmregex</span> <span class="o">=</span> <span class="n">ls_rmregex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_regexp</span> <span class="o">=</span> <span class="n">split_regexp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">len_threshold</span> <span class="o">=</span> <span class="n">len_threshold</span>
+
+        <span class="c1"># Settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+
+<div class="viewcode-block" id="TextCleaning.fit"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextCleaning.fit">[documentos]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit method. If target_encoding is False, then not applies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (array-like, sparse matrix): Training vectors. If there are more</span>
+<span class="sd">                than 1 feature, they are concatenated.</span>
+<span class="sd">            y (array-like of shape (n_samples,), optional): Defaults to None.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            [object]: self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="TextCleaning.transform"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextCleaning.transform">[documentos]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a raw matrix string, return cleaned text</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (pd.Dataframe or np.array): matrix with text fields</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: array with text cleaned</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="n">tf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_clean_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">())])</span><span class="o">.</span>\
+                <span class="n">reshape</span><span class="p">(</span><span class="n">X_shape</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_clean_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span><span class="o">.</span>\
+                <span class="n">reshape</span><span class="p">(</span><span class="n">X_shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tf</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_clean_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">rm_whitespaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rm_whitespaces</span><span class="p">,</span>
+                                <span class="n">normalize_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_method</span><span class="p">,</span>
+                                <span class="n">stopwords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span><span class="p">,</span>
+                                <span class="n">lowercase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lowercase</span><span class="p">,</span>
+                                <span class="n">rm_numbers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rm_numbers</span><span class="p">,</span>
+                                <span class="n">rm_punct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rm_punct</span><span class="p">,</span>
+                                <span class="n">onlywords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onlywords</span><span class="p">,</span>
+                                <span class="n">stp_lang</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stp_lang</span><span class="p">,</span>
+                                <span class="n">ls_rmregex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_rmregex</span><span class="p">,</span>
+                                <span class="n">split_regexp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_regexp</span><span class="p">,</span>
+                                <span class="n">len_threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_threshold</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OneHotEncodingWords"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords">[documentos]</a><span class="k">class</span> <span class="nc">OneHotEncodingWords</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;SKLearn Transformer to vectorize text as One Hot Encoding.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prefix (str, optional): OHE prefix. Defaults to &#39;&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_words_availables_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
+       
+
+
+<div class="viewcode-block" id="OneHotEncodingWords.fit"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.fit">[documentos]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit method. Needs a column with text in each row.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (array-like, sparse matrix): Training vectors. If there are more</span>
+<span class="sd">                than 1 feature, they are concatenated.</span>
+<span class="sd">            y (array-like of shape (n_samples,), optional): Class labels (only</span>
+<span class="sd">                for classification). Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            [object]: self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;_&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># Select unique words of the entire column</span>
+        <span class="n">features_out</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> 
+                                                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features_out</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features_out</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colnames_</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix</span><span class="o">+</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features_out</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="OneHotEncodingWords.transform"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.transform">[documentos]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a raw matrix string, return cleaned text</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (pd.Dataframe or np.array): matrix with text fields</span>
+<span class="sd">            y ([type], optional): Not used, only for compatibility with sklearn.</span>
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: array with text cleaned</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">df_aux</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_txt&#39;</span><span class="p">])</span>
+
+        
+        <span class="n">df_aux</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">colnames_</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_aux</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> 
+                    <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features_out</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;_txt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span><span class="p">),</span> 
+                                                                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df_aux</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_txt&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+
+        <span class="k">return</span> <span class="n">df_aux</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span></div>
+
+    
+<div class="viewcode-block" id="OneHotEncodingWords.get_feature_names"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.OneHotEncodingWords.get_feature_names">[documentos]</a>    <span class="k">def</span> <span class="nf">get_feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_in</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;[summary]</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            features_in (array, optional): Dummy Argument for compatibility. </span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">colnames_</span></div></div>
+
+        
+
+<div class="viewcode-block" id="TextEncoding"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextEncoding">[documentos]</a><span class="k">class</span> <span class="nc">TextEncoding</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">nwords_threshold</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                        <span class="n">nrows_threshold</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                        <span class="n">avoid_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nan&#39;</span><span class="p">],</span>
+                        <span class="n">label_unique_threshold</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                        <span class="n">label_topk</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;SKLearn Transformer to encoding text. It is useful when</span>
+<span class="sd">            semantic information cannot be extracted from the text to be</span>
+<span class="sd">            processed, but keywords can be extracted. It is divided into two</span>
+<span class="sd">            blocks: text cleaning and token target encoding.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nwords_threshold (int, optional): minimum number of times that a</span>
+<span class="sd">                word must appear in all words (for each target label).</span>
+<span class="sd">                Defaults to 20.</span>
+<span class="sd">            nrows_threshold (int, optional): minimum number of times that a</span>
+<span class="sd">                word must appear in all rows (for each target label).</span>
+<span class="sd">                Defaults to 5.</span>
+<span class="sd">            avoid_words (array, optional): strings to be avoided.</span>
+<span class="sd">                Defaults to [&#39;nan&#39;].</span>
+<span class="sd">            label_unique_threshold (float, optional): ratio between 0 and 1 that</span>
+<span class="sd">                indicates for a token how many different labels it appears on.</span>
+<span class="sd">                If the token exceeds this ratio, then it is not considered.</span>
+<span class="sd">                All tokens will be included if it is set to 1.</span>
+<span class="sd">                Defaults to 1.</span>
+<span class="sd">            label_topk (int, optional): number of top tokens to use for each</span>
+<span class="sd">                label class. If None then uses all tokens.</span>
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">        Other Args:</span>
+<span class="sd">            verbose (bool, optional): if True, shows progress bar.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If target encoding, else not applies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nwords_threshold</span> <span class="o">=</span> <span class="n">nwords_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nrows_threshold</span> <span class="o">=</span> <span class="n">nrows_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avoid_words</span> <span class="o">=</span> <span class="n">avoid_words</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_unique_threshold</span> <span class="o">=</span> <span class="n">label_unique_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_topk</span> <span class="o">=</span> <span class="n">label_topk</span>
+
+        <span class="c1"># Results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_impotokens_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_toptokens_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit method. If target_encoding is False, then not applies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (array-like, sparse matrix): Training vectors. If there are more</span>
+<span class="sd">                than 1 feature, they are concatenated.</span>
+<span class="sd">            y (array-like of shape (n_samples,), optional): Class labels (only</span>
+<span class="sd">                for classification). Defaults to None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if target_encoding and y is not given</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            [object]: self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;target_encoding is True, y is needed!&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_impotokens_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_toptokens_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span> <span class="o">=</span> \
+                    <span class="n">TokenizedTargetEncoding</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                        <span class="n">label_unique_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_unique_threshold</span><span class="p">,</span>
+                        <span class="n">label_topk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_topk</span><span class="p">,</span>
+                        <span class="n">nwords_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nwords_threshold</span><span class="p">,</span>
+                        <span class="n">nrows_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nrows_threshold</span><span class="p">,</span>
+                        <span class="n">avoid_words</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">avoid_words</span><span class="p">,</span>
+                        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a raw matrix string, return cleaned text</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (pd.Dataframe or np.array): matrix with text fields</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: array with text cleaned</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Not fitted yet!&#39;</span><span class="p">)</span>
+
+        <span class="n">tf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span>
+                                                <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_shape</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+        <span class="c1"># tf=np.array([&#39; &#39;.join([word for word in row.split() if</span>
+        <span class="c1">#                                         word in self.ls_toptokens_])</span>
+        <span class="c1">#                 for row in X])</span>
+        <span class="k">return</span> <span class="n">tf</span>
+
+<div class="viewcode-block" id="TextEncoding.fit"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextEncoding.fit">[documentos]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit method. If target_encoding is False, then not applies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (array-like, sparse matrix): Training vectors. If there are more</span>
+<span class="sd">                than 1 feature, they are concatenated.</span>
+<span class="sd">            y (array-like of shape (n_samples,), optional): Class labels (only</span>
+<span class="sd">                for classification). Defaults to None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if target_encoding and y is not given</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            [object]: self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;target_encoding is True, y is needed!&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_impotokens_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_toptokens_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span> <span class="o">=</span> \
+                    <span class="n">TokenizedTargetEncoding</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                        <span class="n">label_unique_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_unique_threshold</span><span class="p">,</span>
+                        <span class="n">label_topk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_topk</span><span class="p">,</span>
+                        <span class="n">nwords_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nwords_threshold</span><span class="p">,</span>
+                        <span class="n">nrows_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nrows_threshold</span><span class="p">,</span>
+                        <span class="n">avoid_words</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">avoid_words</span><span class="p">,</span>
+                        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="TextEncoding.transform"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TextEncoding.transform">[documentos]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a raw matrix string, return cleaned text</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (pd.Dataframe or np.array): matrix with text fields</span>
+<span class="sd">            y ([type], optional): Not used, only for compatibility with sklearn.</span>
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: array with text cleaned</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#X_shape = X.shape</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Not fitted yet!&#39;</span><span class="p">)</span>
+
+        <span class="n">tf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span>
+                                                <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_toptokens_</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span><span class="c1">#.reshape(X_shape)</span>
+        <span class="c1"># tf=np.array([&#39; &#39;.join([word for word in row.split() if</span>
+        <span class="c1">#                                         word in self.ls_toptokens_])</span>
+        <span class="c1">#                 for row in X])</span>
+        <span class="k">return</span> <span class="n">tf</span></div></div>
+
+
+<div class="viewcode-block" id="clean_text"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.clean_text">[documentos]</a><span class="k">def</span> <span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">rm_whitespaces</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">normalize_method</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">stopwords</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lowercase</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">rm_numbers</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">rm_punct</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">onlywords</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">stp_lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span>
+                        <span class="n">ls_rmregex</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[—°]&#39;</span><span class="p">],</span>
+                        <span class="n">split_regexp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;[/]&#39;</span><span class="p">,</span>
+                        <span class="n">len_threshold</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">regexp</span> <span class="ow">in</span> <span class="n">ls_rmregex</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regexp</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">split_regexp</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rm_numbers</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()])</span>
+    <span class="k">if</span> <span class="n">rm_punct</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[!&quot;#$%&amp;</span><span class="se">\&#39;</span><span class="s1">()*+,-./:;&lt;=&gt;?@[</span><span class="se">\\</span><span class="s1">]^_`{|}~]&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lowercase</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="c1">#casefold()</span>
+    <span class="k">if</span> <span class="n">stopwords</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">rm_stop_words</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">stp_lang</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normalize_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">normalize_words</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">normalize_method</span><span class="p">,</span> <span class="n">stp_lang</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rm_whitespaces</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;\s\s+&quot;</span> <span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">len_threshold</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">len_threshold</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">onlywords</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b([A-Za-z]+)\b&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span> <span class="c1">#.isalpha() tambien hace esta operacion</span>
+    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="normalize_words"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.normalize_words">[documentos]</a><span class="k">def</span> <span class="nf">normalize_words</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">normalize_method</span><span class="p">,</span> <span class="n">stp_lang</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">normalize_method</span> <span class="o">==</span> <span class="s1">&#39;lemmatization&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">stp_lang</span> <span class="o">!=</span> <span class="s1">&#39;english&#39;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;NLTK only support english to lemmatize&#39;</span><span class="p">)</span>
+            <span class="n">lemma</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">WordNetLemmatizer</span><span class="p">()</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">lemma</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+        <span class="k">elif</span> <span class="n">normalize_method</span> <span class="o">==</span> <span class="s1">&#39;stemming&#39;</span><span class="p">:</span>
+            <span class="n">stemmer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">snowball</span><span class="o">.</span><span class="n">SnowballStemmer</span><span class="p">(</span><span class="n">stp_lang</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Select normalize_method options: </span><span class="se">\</span>
+<span class="s2">[None, &#39;stemming&#39;, &#39;lemmatization&#39;].&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span></div>
+
+
+<div class="viewcode-block" id="rm_stop_words"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.rm_stop_words">[documentos]</a><span class="k">def</span> <span class="nf">rm_stop_words</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">stp_lang</span><span class="p">):</span>
+    <span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">stp_lang</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span>
+                        <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="word_counts"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.word_counts">[documentos]</a><span class="k">def</span> <span class="nf">word_counts</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nwords_threshold</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">nrows_threshold</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                    <span class="n">avoid_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nan&#39;</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Function to count words and filter unfrequent words.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (pd.DataFrame): [description]</span>
+<span class="sd">        nwords_threshold (int, optional): minimum number of words in all text.</span>
+<span class="sd">            Defaults to 5.</span>
+<span class="sd">        nrows_threshold (int, optional): minimum number of rows which contains</span>
+<span class="sd">            the word. Defaults to 4.</span>
+<span class="sd">        avoid_words (list, optional): list of words to avoid.</span>
+<span class="sd">            Defaults to [&#39;nan&#39;].</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: dictionary with word counter filtered.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1"># Count all words</span>
+    <span class="n">ls_text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">word_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">ls_text</span><span class="p">)</span>
+
+    <span class="c1"># Count row times appear a word</span>
+    <span class="n">ls_unique_text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))),</span> <span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">word_rowcounts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">ls_unique_text</span><span class="p">)</span>
+
+    <span class="c1"># MAIN FILTER</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">ls_text</span> <span class="k">if</span>
+                                    <span class="p">(</span><span class="n">word_counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nwords_threshold</span><span class="p">)</span> <span class="o">&amp;</span>
+                                    <span class="p">(</span><span class="n">word_rowcounts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nrows_threshold</span><span class="p">)</span> <span class="o">&amp;</span>
+                                    <span class="p">(</span><span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">avoid_words</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+<div class="viewcode-block" id="TokenizedTargetEncoding"><a class="viewcode-back" href="../../../csklearn.preprocessing.html#csklearn.preprocessing.TextPreprocessing.TokenizedTargetEncoding">[documentos]</a><span class="k">def</span> <span class="nf">TokenizedTargetEncoding</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">nwords_threshold</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                            <span class="n">nrows_threshold</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                            <span class="n">avoid_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nan&#39;</span><span class="p">],</span>
+                            <span class="n">label_unique_threshold</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="n">label_topk</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">return_X</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function to find Bag of Words (BoW) with Target Encoding.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (array-like, sparse matrix): Training vectors. If there are more</span>
+<span class="sd">            than 1 feature, they are concatenated.</span>
+<span class="sd">        y (array-like of shape (n_samples,), optional): Class labels (only</span>
+<span class="sd">            for classification). Defaults to None.</span>
+<span class="sd">        nwords_threshold (int, optional): minimum number of words in label text.</span>
+<span class="sd">            Defaults to 5.</span>
+<span class="sd">        nrows_threshold (int, optional): minimum number of rows which contains</span>
+<span class="sd">            the word for each label. Defaults to 4.</span>
+<span class="sd">        avoid_words (list, optional): list of words to avoid.</span>
+<span class="sd">            Defaults to [&#39;nan&#39;].</span>
+<span class="sd">        label_unique_threshold (float, optional): ratio between 0 and 1 that</span>
+<span class="sd">            indicates for a token how many different labels it appears on.</span>
+<span class="sd">            If the token exceeds this ratio, then it is not considered.</span>
+<span class="sd">            All tokens will be included if it is set to 1.</span>
+<span class="sd">            Defaults to 1.</span>
+<span class="sd">        label_topk (int, optional): number of top tokens to use for each</span>
+<span class="sd">            label class. If None then uses all tokens.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        return_X (bool, optional): to return matrix instead of BoW.</span>
+<span class="sd">            Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X_shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="c1"># Conteo total de palabras</span>
+    <span class="n">d_total_word_counts</span> <span class="o">=</span> <span class="n">word_counts</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nwords_threshold</span><span class="p">,</span> <span class="n">nrows_threshold</span><span class="p">,</span>
+                                        <span class="n">avoid_words</span><span class="p">)</span>
+    <span class="n">d_label_wordcount</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">d_label_wordratio</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Tópicos del target</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+    <span class="c1"># Count words for each topic. Which is the ratio of a word between labels?</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
+        <span class="n">X_l</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">label</span><span class="p">)]</span>
+
+        <span class="c1"># Contador de palabras para cada label.</span>
+        <span class="n">d_label_wordcount</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span>
+            <span class="n">word_counts</span><span class="p">(</span><span class="n">X_l</span><span class="p">,</span> <span class="n">nwords_threshold</span><span class="p">,</span>
+                            <span class="n">nrows_threshold</span><span class="p">,</span>
+                            <span class="n">avoid_words</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+        <span class="c1"># Calcular el ratio de una palabra en label sobre el total de palabras</span>
+        <span class="n">d_label_wordratio</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">=</span>\
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">/</span><span class="n">d_total_word_counts</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="mi">3</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d_label_wordcount</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="c1"># Use pandas help find nones</span>
+    <span class="n">dfx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d_label_wordcount</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dfx</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">dfx</span><span class="p">))</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">&#39;label_wordratio&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;label_wordcount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dfx</span><span class="p">)</span><span class="o">-</span><span class="n">dfx</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;label_wordratio&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Percentage of times a word appears among all labels</span>
+    <span class="n">ls_filtered_words</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;label_wordratio&#39;</span><span class="p">]</span> <span class="o">&lt;=</span>
+                                                <span class="n">label_unique_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+
+    <span class="c1"># Final dictionary with labels and their words</span>
+    <span class="n">d_impotokens</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:{</span><span class="n">word</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span>
+                    <span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">ls_filtered_words</span><span class="p">)}</span>
+                    <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="n">d_label_wordratio</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="n">d_toptokens</span> <span class="o">=</span> <span class="p">{</span><span class="n">labels</span><span class="p">:{</span><span class="n">k</span><span class="p">:</span><span class="n">x</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="n">label_topk</span><span class="p">],</span>
+                                    <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="n">label_topk</span><span class="p">])}</span>
+                                <span class="k">for</span> <span class="n">labels</span><span class="p">,</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">d_impotokens</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">df_toptokens</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d_toptokens</span><span class="p">)</span>
+
+    <span class="n">ls_toptokens</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+                                <span class="p">[[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="n">label_topk</span><span class="p">]]</span>
+                            <span class="k">for</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">d_impotokens</span><span class="o">.</span><span class="n">values</span><span class="p">()]))</span>
+
+    <span class="c1"># Returns X vector with only important words</span>
+    <span class="k">if</span> <span class="n">return_X</span><span class="p">:</span>
+        <span class="n">X</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span>
+                                                        <span class="n">word</span> <span class="ow">in</span> <span class="n">ls_toptokens</span><span class="p">])</span>
+                            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># returns bag of words dictionaries and top tokens list</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">d_impotokens</span><span class="p">,</span> <span class="n">d_toptokens</span><span class="p">,</span> <span class="n">ls_toptokens</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Daniel Runeda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

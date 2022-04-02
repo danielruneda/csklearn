@@ -1,0 +1,21 @@
+csklearn.feature\_selection package
+===================================
+
+Submodules
+----------
+
+csklearn.feature\_selection.correlation\_threshold module
+---------------------------------------------------------
+
+.. automodule:: csklearn.feature_selection.correlation_threshold
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: csklearn.feature_selection
+   :members:
+   :undoc-members:
+   :show-inheritance:
